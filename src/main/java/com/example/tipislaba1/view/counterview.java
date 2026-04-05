@@ -11,7 +11,7 @@ public class counterview {
     @FXML private Button countButton;
     @FXML private Label resultLabel;
     @FXML private TextArea statisticsArea;
-    @FXML private TextArea percentagesArea; // Убедитесь, что это поле есть в FXML!
+    @FXML private TextArea percentagesArea;
 
     public String getInputText() {
         return textArea != null ? textArea.getText() : "";
@@ -35,14 +35,13 @@ public class counterview {
         }
     }
 
-    // Этот метод будет вызван из AppController
     public void setOnCountAction(Runnable action) {
         if (countButton != null) {
             countButton.setOnAction(e -> {
                 try {
                     action.run();
                 } catch (Exception ex) {
-                    ex.printStackTrace(); // ВАЖНО: Вывод ошибки в консоль, если что-то сломалось
+                    ex.printStackTrace();
                     setResult("Ошибка: " + ex.getMessage());
                 }
             });
