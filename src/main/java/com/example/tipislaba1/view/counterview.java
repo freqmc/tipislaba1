@@ -11,26 +11,53 @@ public class counterview {
     @FXML private Button countButton;
     @FXML private Label resultLabel;
     @FXML private TextArea statisticsArea;
+    @FXML private TextArea percentagesArea; // Убедитесь, что это поле есть в FXML!
 
     public String getInputText() {
-        return textArea.getText();
+        return textArea != null ? textArea.getText() : "";
     }
 
     public void setResult(String message) {
-        resultLabel.setText(message);
+        if (resultLabel != null) {
+            resultLabel.setText(message);
+        }
     }
 
     public void setStatistics(String stats) {
-        statisticsArea.setText(stats);
+        if (statisticsArea != null) {
+            statisticsArea.setText(stats);
+        }
     }
 
+    public void setPercentages(String percentages) {
+        if (percentagesArea != null) {
+            percentagesArea.setText(percentages);
+        }
+    }
+
+    // Этот метод будет вызван из AppController
     public void setOnCountAction(Runnable action) {
-        countButton.setOnAction(e -> action.run());
+        if (countButton != null) {
+            countButton.setOnAction(e -> {
+                try {
+                    action.run();
+                } catch (Exception ex) {
+                    ex.printStackTrace(); // ВАЖНО: Вывод ошибки в консоль, если что-то сломалось
+                    setResult("Ошибка: " + ex.getMessage());
+                }
+            });
+        }
     }
 
     @FXML
     private void initialize() {
-        statisticsArea.setEditable(false);
-        statisticsArea.setPrefRowCount(10);
+        if (statisticsArea != null) {
+            statisticsArea.setEditable(false);
+            statisticsArea.setPrefRowCount(8);
+        }
+        if (percentagesArea != null) {
+            percentagesArea.setEditable(false);
+            percentagesArea.setPrefRowCount(8);
+        }
     }
 }
